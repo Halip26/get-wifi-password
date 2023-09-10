@@ -6,15 +6,15 @@ import configparser
 
 
 def get_windows_saved_ssids():
-    """Returns a list of saved SSIDs in a Windows machine using netsh command"""
-    # get all saved profiles in the PC
+    """Mengembalikan daftar SSID yang disimpan di mesin Windows menggunakan perintah netsh"""
+    # dapatkan semua profil wifi yang disimpan di PC
     output = subprocess.check_output("netsh wlan show profiles").decode()
     ssids = []
     profiles = re.findall(r"All User Profile\s(.*)", output)
     for profile in profiles:
-        # for each SSID, remove spaces and colon
+        # untuk setiap SSID, hilangkan spasi dan titik dua
         ssid = profile.strip().strip(":").strip()
-        # add to the list
+        # tambahkan ke daftar
         ssids.append(ssid)
     return ssids
 
@@ -27,13 +27,13 @@ def get_windows_saved_wifi_passwords(verbose=1):
         ssid_details = subprocess.check_output(
             f"""netsh wlan show profile "{ssid}" key=clear"""
         ).decode()
-        # get the ciphers
+        # mendapatkan sandinya
         ciphers = re.findall(r"Cipher\s(.*)", ssid_details)
-        # clear spaces and colon
+        # kosongkan spaces and colon
         ciphers = "/".join([c.strip().strip(":").strip() for c in ciphers])
-        # get the Wi-Fi password
+        # mendapatkan Wi-Fi password
         key = re.findall(r"Key Content\s(.*)", ssid_details)
-        # clear spaces and colon
+        # kosongkan spaces and colon
         try:
             key = key[0].strip().strip(":").strip()
         except IndexError:
@@ -46,12 +46,12 @@ def get_windows_saved_wifi_passwords(verbose=1):
 
 
 def print_windows_profile(profile):
-    """Prints a single profile on Windows"""
+    """Mencetak satu profil di Windows"""
     print(f"{profile.ssid:25}{profile.ciphers:15}{profile.key:50}")
 
 
 def print_windows_profiles(verbose):
-    """Prints all extracted SSIDs along with Key on Windows"""
+    """Mencetak semua SSID yang diekstraksi beserta Key di Windows"""
     print("SSID                     CIPHER(S)      KEY")
     print("-" * 50)
     get_windows_saved_wifi_passwords(verbose)
@@ -85,7 +85,7 @@ def print_linux_profile(profile):
 
 
 def print_linux_profiles(verbose):
-    """Prints all extracted SSIDs along with Key (PSK) on Linux"""
+    """Mencetak semua SSID yang diekstrak beserta Key (PSK) di Linux"""
     print("SSID                     AUTH KEY-MGMT  PSK")
     print("-" * 50)
     get_linux_saved_wifi_passwords(verbose)
