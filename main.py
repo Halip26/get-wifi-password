@@ -84,10 +84,11 @@ def get_linux_saved_wifi_passwords(verbose=1):
     return profiles
 
 
+# untuk menampilkan password pada os linux
 def print_linux_profile(profile):
     """Prints a single profile on Linux"""
     print(
-        f"{str(profile.ssid):25}{str(profile.auth_alg):5}{str(profile.key_mgmt):10}{str(profile.psk):50}"
+        f"{str(profile.ssid):32}{str(profile.auth_alg):6}{str(profile.key_mgmt):10}{str(profile.psk):50}"
     )
 
 
