@@ -6,7 +6,7 @@ data = (
     .split("\n")
 )
 
-print(data)
+# print(data)
 
 """
     sya akan menampilkan semua security key dari wifi
@@ -20,6 +20,7 @@ for i in profiles:
         .split("\n")
     )
     results = [b.split(":")[1][1:-1] for b in results if "Key Content" in b]
+
     # jika ada kata sandi maka akan mencetak kata sandi
     try:
         print("{:<30}| {:<}".format(i, results[0]))
